@@ -1,8 +1,8 @@
 #treatAll <- read.csv("surveyAllTreatment.csv")
 #controlAll <- read.csv("surveyAllControl.csv")
 
-treatAll <- read.csv("surveyAllTreatment3.csv")
-controlAll <- read.csv("surveyAllControl3.csv")
+treatAll <- read.csv("surveyAllTreatment4.csv")
+controlAll <- read.csv("surveyAllControl4.csv")
 
 
 colnames(treatAll)
@@ -155,13 +155,13 @@ treatContributor <- treatAll[treatAll$Q7>1,]
 treatContributor$Q7
 treatContributor$X
 
-treatAfinity <- treatAll[ which( treatAll$Q9 > 3 | treatAll$Q10 > 3 | treatAll$Q11 > 3 | treatAll$Q12 > 3) , ]
+treatAffinity <- treatAll[ which( treatAll$Q9 > 3 | treatAll$Q10 > 3 | treatAll$Q11 > 3 | treatAll$Q12 > 3) , ]
 
 #treatAfinity <- treatAll[ which( treatAll$Q9 > 3),]
 
 #treatAfinity[-1,c("X","Q9","Q10","Q11","Q12")]
 
-treatAfinity[c("X","Q9","Q10","Q11","Q12")]
+treatAffinity[c("X","Q9","Q10","Q11","Q12")]
 
 #------------------------------
 
@@ -177,7 +177,7 @@ controlContributor <- controlAll[controlAll$Q7>1,]
 controlContributor$Q7
 controlContributor$X
 
-controlAfinity <- controlAll[ which( controlAll$Q9 > 3 | controlAll$Q10 > 3 | controlAll$Q11 > 3 | controlAll$Q12 > 3) , ]
+controlAffinity <- controlAll[ which( controlAll$Q9 > 3 | controlAll$Q10 > 3 | controlAll$Q11 > 3 | controlAll$Q12 > 3) , ]
 
 #controlAfinity <- controlAll[ which( controlAll$Q9 > 3),]
 
@@ -379,7 +379,7 @@ colnames(NauAll)
 NauAll$X
 
 # -------
-
+# All
 #Students x Industry x Grad x Undergrad
 
 studentsAll <- rbind(NauAll, InfnetAll, PucAll)
@@ -390,3 +390,22 @@ gradStuAll <- rbind(InfnetAll, PucAll)
 
 underGradStuAll <- NauAll # waiting for CEFET-RJ to compose with Nau
 
+# Treat
+
+studentsTreat <- rbind(treatNau, treatInfnet, treatPuc)
+
+industryTreat <- rbind(treatcasnav, treatBlog)
+
+gradStuTreat <- rbind(treatInfnet, treatPuc)
+
+underGradStuTreat <- treatNau # waiting for CEFET-RJ to compose with Nau
+
+# Control
+
+studentsControl <- rbind(controlNau, controlInfnet, controlPuc)
+
+industryControl <- rbind(controlcasnav, controlBlog)
+
+gradStuControl <- rbind(controlInfnet, controlPuc)
+
+underGradStuControl <- controlNau # waiting for CEFET-RJ to compose with Nau

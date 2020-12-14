@@ -220,3 +220,37 @@ control
 odd <- treat/control
 odd
 
+# Only treatment indus x Stu
+#relevant_labels_Indus_Stud_alt <- matrix(c(240/438, 52/112, 198/438, 60/112), nrow = 2)
+
+relevant_labels_Indus_Stud_Talt <- matrix(c(sum(count.IndusLabelsT), sum(count.studLabelsT), sum(count.IndusLabelsTNonRel), sum(count.studLabelsTNonRel)), nrow = 2)
+
+rownames(relevant_labels_Indus_Stud_Talt) <- c("All Labels Indus Treat", "All Labels Stud Treat")
+colnames(relevant_labels_Indus_Stud_Talt) <- c("yes-relevant", "no-relevant")
+
+relevant_labels_Indus_Stud_Talt 
+
+chisq.test(relevant_labels_Indus_Stud_Talt)
+
+fisher.test(relevant_labels_Indus_Stud_Talt)
+
+oddsratio.wald(relevant_labels_Indus_Stud_Talt)
+
+#treat_alt <- 240/198
+#treat_alt
+#control_alt <-52/60
+#control_alt
+
+#odd_alt <- treat_alt/control_alt
+#odd_alt
+
+treat <- sum(count.IndusLabelsT) / sum(count.IndusLabelsTNonRel)
+treat
+control <-sum(count.studLabelsT)/sum(count.studLabelsTNonRel)
+control
+
+odd <- treat/control
+odd
+
+
+
