@@ -1,5 +1,232 @@
 # Odds Ratio ExpCoder 
 
+#------------------ ExpCoder x NonExpCoder
+
+# Prepare DF
+#ExpCoder
+expCoderLabels <- allExpCoder[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+expCoderNewLabels <- allExpCoder[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+expCoderOldLabels <- allExpCoder[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+expCoderHotMapLabels <- allExpCoder[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
+expCoderHotMapNonLabels <- allExpCoder[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
+
+#NonExpCoder
+nonexpCoderLabels <- allNonExpCoder[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+nonexpCoderNewLabels <- allNonExpCoder[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+nonexpCoderOldLabels <- allNonExpCoder[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+nonexpCoderHotMapLabels <- allNonExpCoder[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
+nonexpCoderHotMapNonLabels <- allNonExpCoder[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
+
+# ExpCoder All
+
+#new Labels relevant
+count.expCoderNewLabels <- apply(expCoderNewLabels, 2, function(x) length(which(x=="relevant")))
+count.expCoderNewLabels
+sum(count.expCoderNewLabels)
+
+#old Labels relevant
+count.expCoderOldLabels <- apply(expCoderOldLabels, 2, function(x) length(which(x=="relevant")))
+count.expCoderOldLabels
+sum(count.expCoderOldLabels)
+
+#new Labels not relevant
+count.expCoderNewLabelsNonRel <- apply(expCoderNewLabels, 2, function(x) length(which(x=="not relevant")))
+count.expCoderNewLabelsNonRel
+sum(count.expCoderNewLabelsNonRel)
+
+#old Labels not relevant
+count.expCoderOldLabelsNonRel <- apply(expCoderOldLabels, 2, function(x) length(which(x=="not relevant")))
+count.expCoderOldLabelsNonRel
+sum(count.expCoderOldLabelsNonRel)
+
+# hot map lables on
+count.expCoderHotMapLabels <- apply(expCoderHotMapLabels, 2, function(x) length(which(x=="On")))
+count.expCoderHotMapLabels
+sum(count.expCoderHotMapLabels)
+
+# hot map lables off
+count.expCoderHotMapLabelsOff <- apply(expCoderHotMapLabels, 2, function(x) length(which(x=="Off")))
+count.expCoderHotMapLabelsOff
+sum(count.expCoderHotMapLabelsOff)
+
+# hot map non Labels on
+count.expCoderHotMapNonLabels <- apply(expCoderHotMapNonLabels, 2, function(x) length(which(x=="On")))
+count.expCoderHotMapNonLabels
+sum(count.expCoderHotMapNonLabels)
+
+# hot map non Labels off
+count.expCoderHotMapNonLabelsOff <- apply(expCoderHotMapNonLabels, 2, function(x) length(which(x=="Off")))
+count.expCoderHotMapNonLabelsOff
+sum(count.expCoderHotMapNonLabelsOff)
+
+# all Labels relevant
+count.expCoderLabels <- apply(expCoderLabels, 2, function(x) length(which(x=="relevant")))
+count.expCoderLabels
+sum(count.expCoderLabels)
+
+# all Labels not relevant
+count.expCoderLabelsNonRel <- apply(expCoderLabels, 2, function(x) length(which(x=="not relevant")))
+count.expCoderLabelsNonRel
+sum(count.expCoderLabelsNonRel)
+
+# Non ExpCoder All
+
+#new Labels relevant
+count.nonexpCoderNewLabels <- apply(nonexpCoderNewLabels, 2, function(x) length(which(x=="relevant")))
+count.nonexpCoderNewLabels
+sum(count.nonexpCoderNewLabels)
+
+#old Labels relevant
+count.nonexpCoderOldLabels <- apply(nonexpCoderOldLabels, 2, function(x) length(which(x=="relevant")))
+count.nonexpCoderOldLabels
+sum(count.nonexpCoderOldLabels)
+
+#new Labels not relevant
+count.nonexpCoderNewLabelsNonRel <- apply(nonexpCoderNewLabels, 2, function(x) length(which(x=="not relevant")))
+count.nonexpCoderNewLabelsNonRel
+sum(count.nonexpCoderNewLabelsNonRel)
+
+#old Labels not relevant
+count.nonexpCoderOldLabelsNonRel <- apply(nonexpCoderOldLabels, 2, function(x) length(which(x=="not relevant")))
+count.nonexpCoderOldLabelsNonRel
+sum(count.nonexpCoderOldLabelsNonRel)
+
+# hot map lables on
+count.nonexpCoderHotMapLabels <- apply(nonexpCoderHotMapLabels, 2, function(x) length(which(x=="On")))
+count.nonexpCoderHotMapLabels
+sum(count.nonexpCoderHotMapLabels)
+
+# hot map lables off
+count.nonexpCoderHotMapLabelsOff <- apply(nonexpCoderHotMapLabels, 2, function(x) length(which(x=="Off")))
+count.nonexpCoderHotMapLabelsOff
+sum(count.nonexpCoderHotMapLabelsOff)
+
+# hot map non Labels on
+count.nonexpCoderHotMapNonLabels <- apply(nonexpCoderHotMapNonLabels, 2, function(x) length(which(x=="On")))
+count.nonexpCoderHotMapNonLabels
+sum(count.nonexpCoderHotMapNonLabels)
+
+# hot map non Labels off
+count.nonexpCoderHotMapNonLabelsOff <- apply(nonexpCoderHotMapNonLabels, 2, function(x) length(which(x=="Off")))
+count.nonexpCoderHotMapNonLabelsOff
+sum(count.nonexpCoderHotMapNonLabelsOff)
+
+# all Labels relevant
+count.nonexpCoderLabels <- apply(nonexpCoderLabels, 2, function(x) length(which(x=="relevant")))
+count.nonexpCoderLabels
+sum(count.nonexpCoderLabels)
+
+# all Labels not relevant
+count.nonexpCoderLabelsNonRel <- apply(nonexpCoderLabels, 2, function(x) length(which(x=="not relevant")))
+count.nonexpCoderLabelsNonRel
+sum(count.nonexpCoderLabelsNonRel)
+
+# ExpCoder x NonExpCoder -------------------------------------
+
+# Indus 3 labels selected 16 other regions selected
+# Stud 3 labels selected 9 other regions selected
+#hot_map_Indus_Stud <- matrix(c(3, 3, 16, 9), nrow = 2)
+
+# or
+# Indus ex:3 labels selected 9 off or 3 from 12 possible
+# Stud ex:3 labels selected 13 off or 3 from 16 possible
+
+#hot_map_expCoder_alt <- matrix(c(3/12, 3/16, 9/12, 13/16), nrow = 2)
+
+hot_map_expCoder_non_alt <- matrix(c(sum(count.expCoderHotMapLabels), sum(count.nonexpCoderHotMapLabels), sum(count.expCoderHotMapLabelsOff), sum(count.nonexpCoderHotMapLabelsOff)), nrow = 2)
+
+rownames(hot_map_expCoder_non_alt) <- c("ExpCoder ", "Non ExpCoder ")
+colnames(hot_map_expCoder_non_alt) <- c("yes-label", "no-label")
+
+#hot_map_Indus
+
+#chisq.test(hot_map_Indus)
+
+#fisher.test(hot_map_Indus)
+
+#oddsratio.wald(hot_map_Indus)
+
+hot_map_expCoder_non_alt
+
+chisq.test(hot_map_expCoder_non_alt)
+
+fisher.test(hot_map_expCoder_non_alt)
+
+oddsratio.wald(hot_map_expCoder_non_alt)
+
+#total new labels considered relevant ex: 21 on from 32 possible only Indus
+#total new labels considered relevant ex: 40 on from 60 possible only Stud
+
+#relevant_labels_Indus_Stud <- matrix(c(21/32, 40/60, 11/32, 20/60), nrow = 2)
+
+relevant_labels_ExpCode_non <- matrix(c(sum(count.expCoderNewLabels), sum(count.nonexpCoderNewLabels), sum(count.expCoderNewLabelsNonRel), sum(count.nonexpCoderNewLabelsNonRel)), nrow = 2)
+
+rownames(relevant_labels_ExpCode_non) <- c("new Labels ExpCoder", "new Labels Non ExpCoder")
+colnames(relevant_labels_ExpCode_non) <- c("yes-relevant", "no-relevant")
+
+relevant_labels_ExpCode_non
+
+chisq.test(relevant_labels_ExpCode_non)
+
+fisher.test(relevant_labels_ExpCode_non)
+
+oddsratio.wald(relevant_labels_ExpCode_non)
+
+# by hand ex:
+#treat <- 21/11
+#treat
+#control <-40/20
+#control
+
+#odd <- treat/control
+#odd
+
+treat <- sum(count.expCoderNewLabels)/sum(count.expCoderNewLabelsNonRel)
+treat
+control <-sum(count.nonexpCoderNewLabels)/sum(count.nonexpCoderNewLabelsNonRel)
+control
+
+odd <- treat/control
+odd
+
+# total labels considered relevant and non relevant Indus Treat
+# total labels considered relevant and non relevant Indus Control
+
+#relevant_labels_Indus_Stud_alt <- matrix(c(240/438, 52/112, 198/438, 60/112), nrow = 2)
+
+relevant_labels_expCoder_non_alt <- matrix(c(sum(count.expCoderLabels), sum(count.nonexpCoderLabels), sum(count.expCoderLabelsNonRel), sum(count.nonexpCoderLabelsNonRel)), nrow = 2)
+
+rownames(relevant_labels_expCoder_non_alt) <- c("All Labels ExpCoder ", "All Labels Non ExpCoder")
+colnames(relevant_labels_expCoder_non_alt) <- c("yes-relevant", "no-relevant")
+
+relevant_labels_expCoder_non_alt 
+
+chisq.test(relevant_labels_expCoder_non_alt)
+
+fisher.test(relevant_labels_expCoder_non_alt)
+
+oddsratio.wald(relevant_labels_expCoder_non_alt)
+
+#treat_alt <- 240/198
+#treat_alt
+#control_alt <-52/60
+#control_alt
+
+#odd_alt <- treat_alt/control_alt
+#odd_alt
+
+treat <- sum(count.expCoderLabels) / sum(count.expCoderLabelsNonRel)
+treat
+control <-sum(count.nonexpCoderLabels)/sum(count.nonexpCoderLabelsNonRel)
+control
+
+odd <- treat/control
+odd
+
+
+
+
+#----------------- ExpCoder x ExpCoder 
 # Prepare DF
 #Treat
 expCoderAllLabelsT <- treatExpCoder[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
@@ -16,7 +243,7 @@ expCoderAllHotMapLabelsC <- controlExpCoder[c("X","Q50_4","Q50_8","Q50_9","Q50_1
 expCoderAllHotMapNonLabelsC <- controlExpCoder[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
 
 # 
-# Indus Treat
+# ExpCoder Treat
 
 #new LabelsT relevant
 count.expCoderNewLabelsT <- apply(expCoderAllNewLabelsT, 2, function(x) length(which(x=="relevant")))
@@ -68,7 +295,7 @@ count.expCoderLabelsTNonRel <- apply(expCoderAllLabelsT, 2, function(x) length(w
 count.expCoderLabelsTNonRel
 sum(count.expCoderLabelsTNonRel)
 
-# Indus Control
+# ExpCoder Control
 
 #new LabelsC relevant
 #count.expCoderNewLabelsC <- apply(expCoderAllNewLabelsC, 2, function(x) length(which(x=="relevant")))

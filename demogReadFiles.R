@@ -4,7 +4,6 @@
 treatAll <- read.csv("surveyAllTreatment4.csv")
 controlAll <- read.csv("surveyAllControl4.csv")
 
-
 colnames(treatAll)
 colnames(controlAll)
 #head(treatAll)
@@ -143,41 +142,165 @@ controlAll$Q12
 
 # create definitions: experienced coder , contributor , coder with afinity
 
+#-------------------------
+# All median (or avg?)
+nrow(treatAll)
+nrow(controlAll)
+
+colnames(treatAll)
+
+#treatNauNewLabels <- treatNau[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os") ]
+#treatNauNewLabels
+
+#treatNau <- treatNau[, !(names(treatNau) %in% c(	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"))]
+
+#cbind(controlNau, io)
+
+controlAux <- controlAll
+
+controlAux$io <- NA
+controlAux$google.commom <- NA
+controlAux$database <- NA
+controlAux$network <- NA
+controlAux$logging <- NA
+controlAux$test <- NA
+controlAux$os <- NA
+
+colnames(treatAll)
+colnames(controlAux)
+
+names(controlAux)[names(controlAux) == 'Q46'] <- 'Q45'
+
+colnames(controlAux)
+
+treatAll$X
+controlAux$X
+
+all <- rbind(treatAll, controlAux)
+colnames(all)
+all$X
+
+#mq8all <- median(all$Q8)
+
+#mq7all <- median(all$Q7)
+
+#mq9all <- median(all$Q9)
+#mq10all <- median(all$Q10)
+#mq11all <- median(all$Q11)
+#mq12all <- median(all$Q12)
+
+mq8all <- round(mean(all$Q8))
+
+mq7all <- round(mean(all$Q7))
+
+mq9all <- round(mean(all$Q9))
+mq10all <- round(mean(all$Q10))
+mq11all <- round(mean(all$Q11))
+mq12all <- round(mean(all$Q12))
+
+allExpCoder <- all[all$Q8>mq8all,]
+allNonExpCoder <- all[all$Q8<=mq8all,]
+
+allExpCoder$Q8
+allExpCoder$X
+allNonExpCoder$Q8
+allNonExpCoder$X
+
+allContributor <- all[all$Q7>mq7all,]
+allNonContributor <- all[all$Q7<=mq7all,]
+
+
+allContributor$Q7
+allContributor$X
+allNonContributor$Q7
+allNonContributor$X
+
+# 1 3 4 3 1 1
+#allAffinity <- all[ which( all$Q9 > mq9all | all$Q10 > mq10all | all$Q11 > mq11all | all$Q12 > mq12all) , ]
+allAffinity <- all[ which( all$Q9 > mq9all & all$Q10 > mq10all | 
+                             all$Q9 > mq9all & all$Q11 > mq11all |
+                             all$Q9 > mq9all & all$Q12 > mq12all |
+                             all$Q11 > mq11all & all$Q10 > mq10all |
+                             all$Q12 > mq12all & all$Q10 > mq10all |
+                             all$Q11 > mq11all & all$Q12 > mq12all) , ]
+
+library(dplyr)
+target <- allAffinity$X
+allNonAffinity <- filter(all, !X %in% target)
+
+
+
+#allNonAffinity <- all[ which( all$Q9 <= mq9all & all$Q10 <= mq10all & all$Q11 <= mq11all & all$Q12 <= mq12all) , ]
+
+allAffinity[c("X","Q9","Q10","Q11","Q12")]
+allNonAffinity[c("X","Q9","Q10","Q11","Q12")]
+
+#------------------------
+# check the median first
+
+mq8 <- median(treatAll$Q8)
+
+mq7 <- median(treatAll$Q7)
+
+mq9 <- median(treatAll$Q9)
+mq10 <- median(treatAll$Q10)
+mq11 <- median(treatAll$Q11)
+mq12 <- median(treatAll$Q12)
+
 #treatAll <- rbind(treatHeader,treatAll)
 
-treatExpCoder <- treatAll[treatAll$Q8>3,]
+treatExpCoder <- treatAll[treatAll$Q8>mq8,]
+treatNonExpCoder <- treatAll[treatAll$Q8<=mq8,]
 
 treatExpCoder$Q8
 treatExpCoder$X
+treatNonExpCoder$Q8
+treatNonExpCoder$X
 
-treatContributor <- treatAll[treatAll$Q7>1,]
+treatContributor <- treatAll[treatAll$Q7>mq7,]
+treatNonContributor <- treatAll[treatAll$Q7<=mq7,]
+
 
 treatContributor$Q7
 treatContributor$X
+treatNonContributor$Q7
+treatNonContributor$X
 
-treatAffinity <- treatAll[ which( treatAll$Q9 > 3 | treatAll$Q10 > 3 | treatAll$Q11 > 3 | treatAll$Q12 > 3) , ]
+treatAffinity <- treatAll[ which( treatAll$Q9 > mq9 | treatAll$Q10 > mq10 | treatAll$Q11 > mq11 | treatAll$Q12 > mq12) , ]
+treatNoAffinity <- treatAll[ which( treatAll$Q9 <= mq9 & treatAll$Q10 <= mq10 & treatAll$Q11 <= mq11 & treatAll$Q12 <= mq12) , ]
 
 #treatAfinity <- treatAll[ which( treatAll$Q9 > 3),]
 
 #treatAfinity[-1,c("X","Q9","Q10","Q11","Q12")]
 
 treatAffinity[c("X","Q9","Q10","Q11","Q12")]
+treatNoAffinity[c("X","Q9","Q10","Q11","Q12")]
 
 #------------------------------
+# check the median first
+
+mq8c <- median(controlAll$Q8)
+
+mq7c <- median(controlAll$Q7)
+
+mq9c <- median(controlAll$Q9)
+mq10c <- median(controlAll$Q10)
+mq11c <- median(controlAll$Q11)
+mq12c <- median(controlAll$Q12)
 
 #controlAll <- rbind(controlHeader,controlAll)
 
-controlExpCoder <- controlAll[controlAll$Q8>3,]
+controlExpCoder <- controlAll[controlAll$Q8>mq8c,]
 
 controlExpCoder$Q8
 controlExpCoder$X
 
-controlContributor <- controlAll[controlAll$Q7>1,]
+controlContributor <- controlAll[controlAll$Q7>mq7c,]
 
 controlContributor$Q7
 controlContributor$X
 
-controlAffinity <- controlAll[ which( controlAll$Q9 > 3 | controlAll$Q10 > 3 | controlAll$Q11 > 3 | controlAll$Q12 > 3) , ]
+controlAffinity <- controlAll[ which( controlAll$Q9 > mq9c | controlAll$Q10 > mq10c | controlAll$Q11 > mq11c | controlAll$Q12 > mq12c) , ]
 
 #controlAfinity <- controlAll[ which( controlAll$Q9 > 3),]
 
@@ -185,6 +308,82 @@ controlAffinity <- controlAll[ which( controlAll$Q9 > 3 | controlAll$Q10 > 3 | c
 
 controlAfinity[c("X","Q9","Q10","Q11","Q12")]
 
+
+#------------------------
+# ExpCoderAll ContributorAll AffinityALL
+#-----------------------
+# ExpCoder
+#----------------------
+nrow(treatExpCoder)
+nrow(controlExpCoder)
+
+colnames(treatExpCoder)
+
+#treatNauNewLabels <- treatNau[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os") ]
+#treatNauNewLabels
+
+#treatNau <- treatNau[, !(names(treatNau) %in% c(	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"))]
+
+#cbind(controlNau, io)
+
+controlExpCoder$io <- NA
+controlExpCoder$google.commom <- NA
+controlExpCoder$database <- NA
+controlExpCoder$network <- NA
+controlExpCoder$logging <- NA
+controlExpCoder$test <- NA
+controlExpCoder$os <- NA
+
+colnames(treatExpCoder)
+colnames(controlExpCoder)
+
+names(controlExpCoder)[names(controlExpCoder) == 'Q46'] <- 'Q45'
+
+colnames(controlExpCoder)
+
+treatExpCoder$X
+controlExpCoder$X
+
+expCoderAll <- rbind(treatExpCoder, controlExpCoder)
+colnames(expCoderAll)
+expCoderAll$X
+
+#-----------------------
+# Non ExpCoder
+#----------------------
+nrow(treatNonExpCoder)
+nrow(controNonExpCoder)
+
+colnames(treatNonExpCoder)
+
+#treatNauNewLabels <- treatNau[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os") ]
+#treatNauNewLabels
+
+#treatNau <- treatNau[, !(names(treatNau) %in% c(	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"))]
+
+#cbind(controlNau, io)
+
+controNonExpCoder$io <- NA
+controNonExpCoder$google.commom <- NA
+controNonExpCoder$database <- NA
+controNonExpCoder$network <- NA
+controNonExpCoder$logging <- NA
+controNonExpCoder$test <- NA
+controNonExpCoder$os <- NA
+
+colnames(treatNonExpCoder)
+colnames(controNonExpCoder)
+
+names(controNonExpCoder)[names(controNonExpCoder) == 'Q46'] <- 'Q45'
+
+colnames(controNonExpCoder)
+
+treatNonExpCoder$X
+controNonExpCoder$X
+
+expNonCoderAll <- rbind(treatNonExpCoder, controlExpCoder)
+colnames(expNonCoderAll)
+expNonCoderAll$X
 # ------------
 # locals or data set sources 
 #--------------
