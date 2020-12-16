@@ -25,54 +25,54 @@ casnavTHotMapNonLabels <- casnavT[c("X","Q16_1","Q16_2","Q16_3","Q16_5","Q16_6",
 casnavCHotMapLabels <- casnavC[c("X","Q16_4","Q16_8","Q16_9")]
 casnavCHotMapNonLabels <- casnavC[c("X","Q16_1","Q16_2","Q16_3","Q16_5","Q16_6","Q16_7","Q16_10")]
 
-count.TNewLabels <- apply(casnavTNewLabels, 2, function(x) length(which(x=="relevant")))
-count.TNewLabels
-sum(count.TNewLabels)
+count.TCasnavNewLabels <- apply(casnavTNewLabels, 2, function(x) length(which(x=="relevant")))
+count.TCasnavNewLabels
+sum(count.TCasnavNewLabels)
 
-count.TOldLabels <- apply(casnavTOldLabels, 2, function(x) length(which(x=="relevant")))
-count.TOldLabels
-sum(count.TOldLabels)
+count.TCasnavOldLabels <- apply(casnavTOldLabels, 2, function(x) length(which(x=="relevant")))
+count.TCasnavOldLabels
+sum(count.TCasnavOldLabels)
 
-count.TNewLabelsNonRel <- apply(casnavTNewLabels, 2, function(x) length(which(x=="not relevant")))
-count.TNewLabelsNonRel
-sum(count.TNewLabelsNonRel)
+count.TCasnavNewLabelsNonRel <- apply(casnavTNewLabels, 2, function(x) length(which(x=="not relevant")))
+count.TCasnavNewLabelsNonRel
+sum(count.TCasnavNewLabelsNonRel)
 
-count.TOldLabelsNonRel <- apply(casnavTOldLabels, 2, function(x) length(which(x=="not relevant")))
-count.TOldLabelsNonRel
-sum(count.TOldLabelsNonRel)
+count.TCasnavOldLabelsNonRel <- apply(casnavTOldLabels, 2, function(x) length(which(x=="not relevant")))
+count.TCasnavOldLabelsNonRel
+sum(count.TCasnavOldLabelsNonRel)
 
-count.THotMapLabels <- apply(casnavTHotMapLabels, 2, function(x) length(which(x=="On")))
-count.THotMapLabels
-sum(count.THotMapLabels)
+count.TCasnavHotMapLabels <- apply(casnavTHotMapLabels, 2, function(x) length(which(x=="On")))
+count.TCasnavHotMapLabels
+sum(count.TCasnavHotMapLabels)
 
-count.THotMapLabelsOff <- apply(casnavTHotMapLabels, 2, function(x) length(which(x=="Off")))
-count.THotMapLabelsOff
-sum(count.THotMapLabelsOff)
+count.TCasnavHotMapLabelsOff <- apply(casnavTHotMapLabels, 2, function(x) length(which(x=="Off")))
+count.TCasnavHotMapLabelsOff
+sum(count.TCasnavHotMapLabelsOff)
 
-count.THotMapNonLabels <- apply(casnavTHotMapNonLabels, 2, function(x) length(which(x=="On")))
-count.THotMapNonLabels
-sum(count.THotMapNonLabels)
+count.TCasnavHotMapNonLabels <- apply(casnavTHotMapNonLabels, 2, function(x) length(which(x=="On")))
+count.TCasnavHotMapNonLabels
+sum(count.TCasnavHotMapNonLabels)
 
-count.CHotMapLabels <- apply(casnavCHotMapLabels, 2, function(x) length(which(x=="On")))
-count.CHotMapLabels
-sum(count.CHotMapLabels)
+count.CCasnavHotMapLabels <- apply(casnavCHotMapLabels, 2, function(x) length(which(x=="On")))
+count.CCasnavHotMapLabels
+sum(count.CCasnavHotMapLabels)
 
-count.CHotMapLabelsOff <- apply(casnavCHotMapLabels, 2, function(x) length(which(x=="Off")))
-count.CHotMapLabelsOff
-sum(count.CHotMapLabelsOff)
+count.CCasnavHotMapLabelsOff <- apply(casnavCHotMapLabels, 2, function(x) length(which(x=="Off")))
+count.CCasnavHotMapLabelsOff
+sum(count.CCasnavHotMapLabelsOff)
 
 
-count.CHotMapNonLabels <- apply(casnavCHotMapNonLabels, 2, function(x) length(which(x=="On")))
-count.CHotMapNonLabels
-sum(count.CHotMapNonLabels)
+count.CCasnavHotMapNonLabels <- apply(casnavCHotMapNonLabels, 2, function(x) length(which(x=="On")))
+count.CCasnavHotMapNonLabels
+sum(count.CCasnavHotMapNonLabels)
 
-count.CLabels <- apply(casnavCLabels, 2, function(x) length(which(x=="relevant")))
-count.CLabels
-sum(count.CLabels)
+count.CCasnavLabels <- apply(casnavCLabels, 2, function(x) length(which(x=="relevant")))
+count.CCasnavLabels
+sum(count.CCasnavLabels)
 
-count.CLabelsNonRel <- apply(casnavCLabels, 2, function(x) length(which(x=="not relevant")))
-count.CLabelsNonRel
-sum(count.CLabelsNonRel)
+count.CCasnavLabelsNonRel <- apply(casnavCLabels, 2, function(x) length(which(x=="not relevant")))
+count.CCasnavLabelsNonRel
+sum(count.CCasnavLabelsNonRel)
 
 # treatment 3 labels selected 16 other regions selected
 # control 3 labels selected 9 other regions selected
@@ -84,7 +84,7 @@ sum(count.CLabelsNonRel)
 
 #hot_map_CASNAV_alt <- matrix(c(3/12, 3/16, 9/12, 13/16), nrow = 2)
 
-hot_map_CASNAV_alt <- matrix(c(sum(count.THotMapLabels), sum(count.CHotMapLabels), sum(count.THotMapLabelsOff), sum(count.CHotMapLabelsOff)), nrow = 2)
+hot_map_CASNAV_alt <- matrix(c(sum(count.TCasnavHotMapLabels), sum(count.CCasnavHotMapLabels), sum(count.TCasnavHotMapLabelsOff), sum(count.CCasnavHotMapLabelsOff)), nrow = 2)
 
 rownames(hot_map_CASNAV_alt) <- c("Treatment", "control")
 colnames(hot_map_CASNAV_alt) <- c("yes-label", "no-label")
@@ -110,7 +110,8 @@ oddsratio.wald(hot_map_CASNAV_alt)
 
 #relevant_labels_CASNAV <- matrix(c(21/32, 40/60, 11/32, 20/60), nrow = 2)
 
-relevant_labels_CASNAV <- matrix(c(sum(count.TNewLabels), sum(count.TNewLabelsNonRel), sum(count.TOldLabels), sum(count.TOldLabelsNonRel)), nrow = 2)
+#relevant_labels_CASNAV <- matrix(c(sum(count.TCasnavNewLabels), sum(count.TCasnavNewLabelsNonRel), sum(count.TCasnavOldLabels), sum(count.TCasnavOldLabelsNonRel)), nrow = 2)
+relevant_labels_CASNAV <- matrix(c(sum(count.TCasnavNewLabels), sum(count.TCasnavOldLabels), sum(count.TCasnavNewLabelsNonRel), sum(count.TCasnavOldLabelsNonRel)), nrow = 2)
 
 rownames(relevant_labels_CASNAV) <- c("new Labels", "old Labels")
 colnames(relevant_labels_CASNAV) <- c("yes-relevant", "no-relevant")
@@ -132,9 +133,9 @@ oddsratio.wald(relevant_labels_CASNAV)
 #odd <- treat/control
 #odd
 
-treat <- sum(count.TNewLabels)/sum(count.TNewLabelsNonRel)
+treat <- sum(count.TCasnavNewLabels)/sum(count.TCasnavNewLabelsNonRel)
 treat
-control <-sum(count.TOldLabels)/sum(count.TOldLabelsNonRel)
+control <-sum(count.TCasnavOldLabels)/sum(count.TCasnavOldLabelsNonRel)
 control
 
 odd <- treat/control
@@ -145,7 +146,7 @@ odd
 
 #relevant_labels_CASNAV_alt <- matrix(c(240/438, 52/112, 198/438, 60/112), nrow = 2)
 
-relevant_labels_CASNAV_alt <- matrix(c(sum(count.TNewLabels)+sum(count.TOldLabels), sum(count.CLabels), sum(count.TNewLabelsNonRel)+sum(count.TOldLabelsNonRel), sum(count.CLabelsNonRel)), nrow = 2)
+relevant_labels_CASNAV_alt <- matrix(c(sum(count.TCasnavNewLabels)+sum(count.TCasnavOldLabels), sum(count.CCasnavLabels), sum(count.TCasnavNewLabelsNonRel)+sum(count.TCasnavOldLabelsNonRel), sum(count.CCasnavLabelsNonRel)), nrow = 2)
 
 rownames(relevant_labels_CASNAV_alt) <- c("Labels Treatment", "Labels control")
 colnames(relevant_labels_CASNAV_alt) <- c("yes-relevant", "no-relevant")
@@ -153,6 +154,17 @@ colnames(relevant_labels_CASNAV_alt) <- c("yes-relevant", "no-relevant")
 relevant_labels_CASNAV_alt
 
 chisq.test(relevant_labels_CASNAV_alt)
+
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_CASNAV_alt)
+
 
 fisher.test(relevant_labels_CASNAV_alt)
 
@@ -166,9 +178,9 @@ oddsratio.wald(relevant_labels_CASNAV_alt)
 #odd_alt <- treat_alt/control_alt
 #odd_alt
 
-treat <- (sum(count.TNewLabels)+sum(count.TOldLabels)) / (sum(count.TNewLabelsNonRel)+sum(count.TOldLabelsNonRel))
+treat <- (sum(count.TCasnavNewLabels)+sum(count.TCasnavOldLabels)) / (sum(count.TCasnavNewLabelsNonRel)+sum(count.TCasnavOldLabelsNonRel))
 treat
-control <-sum(count.CLabels)/sum(count.CLabelsNonRel)
+control <-sum(count.CCasnavLabels)/sum(count.CCasnavLabelsNonRel)
 control
 
 odd <- treat/control

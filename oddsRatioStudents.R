@@ -134,7 +134,7 @@ sum(count.studHotMapNonLabelsCOff)
 
 hot_map_stud_alt <- matrix(c(sum(count.studHotMapLabelsT), sum(count.studHotMapLabelsC), sum(count.studHotMapLabelsTOff), sum(count.studHotMapLabelsCOff)), nrow = 2)
 
-rownames(hot_map_stud_alt) <- c("students Treat", "Ind Control")
+rownames(hot_map_stud_alt) <- c("students Treat", "stud Control")
 colnames(hot_map_stud_alt) <- c("yes-label", "no-label")
 
 #hot_map_stud

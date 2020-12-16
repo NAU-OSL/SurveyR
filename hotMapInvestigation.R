@@ -202,4 +202,59 @@ ggplot(df1chm, aes(x, y)) +
   geom_point()+
   labs(x = "hot map control", y = "issues")
 
+#----- Print
 
+par(mfrow=c(1,1))
+par(cex=0.4, mai=c(0.5,0.5,0.5,0.5))
+par(las=2)
+pdf(file="./figures/treatHotMap.pdf")
+barplot(count.thm, main="hot spot treatment", horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+pdf(file="./figures/controlHotMap.pdf")
+barplot(count.chm, main="hot spot control", horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+count.allhm <- count.chm + count.thm
+#title        author          body        labels          code      comments  participants     newLabel1 
+#33            16            54            25            41            25             4             0 
+#newLabel2        linked  tileListPage labelListPage     sumLabels     sumTitles 
+#3             6            33            24            52            66 
+
+#c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"
+
+data <- data.frame(
+  region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  top3=c(6,19,19,12,2,1,24,27)
+)
+data#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/AllHotMap.pdf")
+barplot(height=data$total, names=data$region, main="hot spot ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+mx <- t(as.matrix(data[-1]))
+colnames(mx) <- data$region
+colours = c("red","blue")
+# note the use of ylim to give 30% space for the legend
+barplot(mx,main='Hot Spot counts',ylab='Counts', xlab='Regions',beside = TRUE, 
+        col=colours, ylim=c(0,max(mx)*1.3))
+# to add a box around the plot
+box()
+
+# add a legend
+legend('topright',fill=colours,legend=c('Total','Top 3'))
+
+library(tidyr)
+library(ggplot2)
+
+ggplot(data = data %>% gather(Variable, counts, -region), 
+       aes(x = region, y = counts, fill = Variable)) + 
+  geom_bar(stat = 'identity', position = 'dodge', width=0.5)

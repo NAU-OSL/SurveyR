@@ -168,6 +168,16 @@ relevant_labels_Affinity_non
 
 chisq.test(relevant_labels_Affinity_non)
 
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_Affinity_non)
+
 fisher.test(relevant_labels_Affinity_non)
 
 oddsratio.wald(relevant_labels_Affinity_non)
