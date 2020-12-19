@@ -210,6 +210,17 @@ relevant_labels_Indus_Stud_alt
 
 chisq.test(relevant_labels_Indus_Stud_alt)
 
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_Indus_Stud_alt)
+
+
 fisher.test(relevant_labels_Indus_Stud_alt)
 
 oddsratio.wald(relevant_labels_Indus_Stud_alt)
