@@ -158,6 +158,8 @@ colnames(treatAll)
 
 controlAux <- controlAll
 
+# control ui
+controlAux$ui <- NA
 controlAux$io <- NA
 controlAux$google.commom <- NA
 controlAux$database <- NA
@@ -238,14 +240,23 @@ allNonAffinity[c("X","Q9","Q10","Q11","Q12")]
 #------------------------
 # check the median first
 
-mq8 <- median(treatAll$Q8)
+#mq8 <- median(treatAll$Q8)
 
-mq7 <- median(treatAll$Q7)
+#mq7 <- median(treatAll$Q7)
 
-mq9 <- median(treatAll$Q9)
-mq10 <- median(treatAll$Q10)
-mq11 <- median(treatAll$Q11)
-mq12 <- median(treatAll$Q12)
+#mq9 <- median(treatAll$Q9)
+#mq10 <- median(treatAll$Q10)
+#mq11 <- median(treatAll$Q11)
+#mq12 <- median(treatAll$Q12)
+
+mq8 <- round(mean(all$Q8))
+
+mq7 <- round(mean(all$Q7))
+
+mq9 <- round(mean(all$Q9))
+mq10 <- round(mean(all$Q10))
+mq11 <- round(mean(all$Q11))
+mq12 <- round(mean(all$Q12))
 
 #treatAll <- rbind(treatHeader,treatAll)
 
@@ -279,14 +290,14 @@ treatNoAffinity[c("X","Q9","Q10","Q11","Q12")]
 #------------------------------
 # check the median first
 
-mq8c <- median(controlAll$Q8)
+mq8c <- round(mean(all$Q8))
 
-mq7c <- median(controlAll$Q7)
+mq7c <- round(mean(all$Q7))
 
-mq9c <- median(controlAll$Q9)
-mq10c <- median(controlAll$Q10)
-mq11c <- median(controlAll$Q11)
-mq12c <- median(controlAll$Q12)
+mq9c <- round(mean(all$Q9))
+mq10c <- round(mean(all$Q10))
+mq11c <- round(mean(all$Q11))
+mq12c <- round(mean(all$Q12))
 
 #controlAll <- rbind(controlHeader,controlAll)
 

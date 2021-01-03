@@ -5,14 +5,16 @@
 # Prepare DF
 #Affinity
 affinityLabels <- allAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
-affinityNewLabels <- allAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+#affinityNewLabels <- allAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+affinityNewLabels <- treatAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
 affinityOldLabels <- allAffinity[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
 affinityHotMapLabels <- allAffinity[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 affinityHotMapNonLabels <- allAffinity[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
 
 #NonAffinity
 nonaffinityLabels <- allNonAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
-nonaffinityNewLabels <- allNonAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+#nonaffinityNewLabels <- allNonAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+nonaffinityNewLabels <- treatNoAffinity[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
 nonaffinityOldLabels <- allNonAffinity[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
 nonaffinityHotMapLabels <- allNonAffinity[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 nonaffinityHotMapNonLabels <- allNonAffinity[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
@@ -20,6 +22,7 @@ nonaffinityHotMapNonLabels <- allNonAffinity[c("X","Q50_1","Q50_2","Q50_3","Q50_
 # Affinity All
 
 #new Labels relevant
+affinityNewLabels <- affinityNewLabels[,-1]
 count.affinityNewLabels <- apply(affinityNewLabels, 2, function(x) length(which(x=="relevant")))
 count.affinityNewLabels
 sum(count.affinityNewLabels)
@@ -72,6 +75,7 @@ sum(count.affinityLabelsNonRel)
 # Non Affinity All
 
 #new Labels relevant
+nonaffinityNewLabels <- nonaffinityNewLabels[,-1]
 count.nonaffinityNewLabels <- apply(nonaffinityNewLabels, 2, function(x) length(which(x=="relevant")))
 count.nonaffinityNewLabels
 sum(count.nonaffinityNewLabels)
@@ -212,6 +216,17 @@ colnames(relevant_labels_affinity_non_alt) <- c("yes-relevant", "no-relevant")
 relevant_labels_affinity_non_alt 
 
 chisq.test(relevant_labels_affinity_non_alt)
+
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_affinity_non_alt)
+
 
 fisher.test(relevant_labels_affinity_non_alt)
 
@@ -393,18 +408,28 @@ oddsratio.wald(hot_map_Affinity_alt)
 
 #relevant_labels_Indus_Stud <- matrix(c(21/32, 40/60, 11/32, 20/60), nrow = 2)
 
-#relevant_labels_Indus <- matrix(c(sum(count.affinityNewLabels), sum(count.StudNewLabels), sum(count.affinityNewLabelsNonRel), sum(count.StudNewLabelsNonRel)), nrow = 2)
+relevant_labels_Affinity <- matrix(c(sum(count.affinityNewLabels), sum(count.nonaffinityNewLabels), sum(count.affinityNewLabelsNonRel), sum(count.nonaffinityNewLabelsNonRel)), nrow = 2)
 
-#rownames(relevant_labels_Indus) <- c("new Labels Indus", "new Labels Stud")
-#colnames(relevant_labels_Indus) <- c("yes-relevant", "no-relevant")
+rownames(relevant_labels_Affinity) <- c("new Labels Affinity", "new Labels no Affinity")
+colnames(relevant_labels_Affinity) <- c("yes-relevant", "no-relevant")
 
-#relevant_labels_Indus
+relevant_labels_Affinity
 
-#chisq.test(relevant_labels_Indus)
+chisq.test(relevant_labels_Affinity)
 
-#fisher.test(relevant_labels_Indus)
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
 
-#oddsratio.wald(relevant_labels_Indus)
+cramerV(relevant_labels_Affinity)
+
+fisher.test(relevant_labels_Affinity)
+
+oddsratio.wald(relevant_labels_Affinity)
 
 # by hand ex:
 #treat <- 21/11
@@ -456,5 +481,57 @@ control
 
 odd <- treat/control
 odd
+
+# ---- Affinity x Non Affinity
+#-
+ta <- nrow(treatAffinity)
+tna <- nrow(treatNoAffinity)
+#treatAllLabels <- treatAllLabels[,-1]
+datalabelAF <- data.frame(
+  #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  labels=c("ui",	"io",	"gc",	"db",	"network",	"logging",	"test",	"os"),
+  count.affinityNewLabels/ta,
+  count.nonaffinityNewLabels/tna,
+  count.all= count.affinityNewLabels/ta+count.nonaffinityNewLabels/tna
+  #count1=count.1t+count.1c,
+  #count2=count.2t+count.2c,
+  #count3=count.3t+count.3c
+  #top3=c(6,19,19,12,2,1,24,27)
+)
+datalabelAF
+df <- datalabelAF[order(datalabelAF$count.all,decreasing = TRUE),]
+df
+#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/NewLabelsAffinity.pdf")
+barplot(height=df$count.all, names=df$labels, main="Labels ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1,4)]))
+mx
+colnames(mx) <- df$labels
+colours = c("lightblue","lightgoldenrod")
+# note the use of ylim to give 30% space for the legend
+#barplot(mx,main='New Labels counts Affinity x No Affinity normalized',ylab='Counts', xlab='Labels',beside = TRUE, 
+barplot(mx,main='High x Low Affinity',ylab='Counts', xlab='Labels',beside = TRUE, 
+                col=colours, ylim=c(0,max(mx)*1.1))
+
+# to add a box around the plot
+box()
+
+# add a legend
+legend('topright',fill=colours,legend=c('High','Low'))
+
+rotate_x <- function(data, column_to_plot, labels_vec, rot_angle) {
+  plt <- barplot(data[[column_to_plot]], col='steelblue', xaxt="n", beside = TRUE,)
+  text(plt, par("usr")[3], labels = labels_vec, srt = rot_angle, adj = c(1.1,1.1), xpd = TRUE, cex=0.7) 
+}
+#steelblue
+rotate_x(df, 'count.affinityNewLabels.ta', row.names(df), 45) 
 
 

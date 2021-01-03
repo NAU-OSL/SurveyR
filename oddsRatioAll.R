@@ -160,18 +160,28 @@ oddsratio.wald(hot_map_all_alt)
 
 #relevant_labels_all_Stud <- matrix(c(21/32, 40/60, 11/32, 20/60), nrow = 2)
 
-#relevant_labels_stud <- matrix(c(sum(count.allNewLabels), sum(count.StudNewLabels), sum(count.allNewLabelsNonRel), sum(count.StudNewLabelsNonRel)), nrow = 2)
+relevant_labels_all <- matrix(c(sum(count.allNewLabelsT), sum(count.allOldLabelsT), sum(count.allNewLabelsTNonRel), sum(count.allOldLabelsTNonRel)), nrow = 2)
 
-#rownames(relevant_labels_stud) <- c("new Labels stud", "new Labels Stud")
-#colnames(relevant_labels_stud) <- c("yes-relevant", "no-relevant")
+rownames(relevant_labels_all) <- c("new Labels All", "old Labels All")
+colnames(relevant_labels_all) <- c("yes-relevant", "no-relevant")
 
-#relevant_labels_stud
+relevant_labels_all
 
-#chisq.test(relevant_labels_stud)
+chisq.test(relevant_labels_all)
 
-#fisher.test(relevant_labels_stud)
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
 
-#oddsratio.wald(relevant_labels_stud)
+cramerV(relevant_labels_all)
+
+fisher.test(relevant_labels_all)
+
+oddsratio.wald(relevant_labels_all)
 
 # by hand ex:
 #treat <- 21/11

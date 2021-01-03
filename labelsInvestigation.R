@@ -24,6 +24,25 @@ controlAllLabels <- controlAllLabels[,-1]
 count.cl <- apply(controlAllLabels, 2, function(x) length(which(x=="relevant")))
 count.cl
 
+# All
+
+AllLabels <- all[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+
+AllLabelsPartCol <- AllLabels[,1] 
+AllLabels <- AllLabels[,-1]
+
+count.al <- apply(AllLabels, 2, function(x) length(which(x=="relevant")))
+count.al
+
+# ControlAux (control with the new lalebs with 0 = zeros)
+
+AuxLabels <- controlAux[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+
+AuxLabelsPartCol <- AuxLabels[,1] 
+AuxLabels <- AuxLabels[,-1]
+
+count.aul <- apply(AuxLabels, 2, function(x) length(which(x=="relevant")))
+count.aul
 # labels x issues
 
 #treatment
@@ -142,4 +161,154 @@ ggplot(df1cl, aes(x, y)) +
   geom_point()+
   labs(x = "labels control", y = "issues")
 
+#------------ Treatment
+datalabelT <- data.frame(
+  #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  labels=c("API ui",	"API io",	"API gc",	"API database",	"API network",	"API logging",	"API test",	"API os",	"groups",	"e.files",	"maintable",	"t.bug",	"t.performance",	"good.1.issue",	"fetcher",	"e.editor",	"preferences",	"t.quality",	"t.enhancem.",	"import",	"GSoC",	"t.feature",	"keywords"),
+  count.tl
+  #count1=count.1t+count.1c,
+  #count2=count.2t+count.2c,
+  #count3=count.3t+count.3c
+  #top3=c(6,19,19,12,2,1,24,27)
+)
+datalabelT
+df <- datalabelT[order(datalabelT$count.tl,decreasing = TRUE),]
+df
+#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/AllTreatmentLabels.pdf")
+barplot(height=df$count.tl, names=df$labels, main="Issues ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
 
+par(mfrow=c(1,1))
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1)]))
+mx
+colnames(mx) <- df$labels
+colours = c("blue")
+# note the use of ylim to give 30% space for the legend
+barplot(mx,main='Treatment Labels counts',ylab='Counts', xlab='Labels',beside = FALSE, 
+        col=colours, ylim=c(0,max(mx)*1.1))
+# to add a box around the plot
+box()
+
+# add a legend
+#legend('topright',fill=colours,legend=c('1st','2nd','3rd'))
+
+#------------ Control
+datalabel <- data.frame(
+  #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  labels=c("groups",	"e.files",	"maintable",	"t.bug",	"t.performance",	"good.1.issue",	"fetcher",	"e.editor",	"preferences",	"t.quality",	"t.enhancem.",	"import",	"GSoC",	"t.feature",	"keywords"),
+  count.cl
+  #count1=count.1t+count.1c,
+  #count2=count.2t+count.2c,
+  #count3=count.3t+count.3c
+  #top3=c(6,19,19,12,2,1,24,27)
+)
+datalabel
+df <- datalabel[order(datalabel$count.cl,decreasing = TRUE),]
+df
+#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/AllControlLabels.pdf")
+barplot(height=df$count.cl, names=df$labels, main="Issues ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,2))
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1)]))
+mx
+colnames(mx) <- df$labels
+colours = c("red")
+# note the use of ylim to give 30% space for the legend
+barplot(mx,main='Control Labels counts',ylab='Counts', xlab='Labels',beside = FALSE, 
+        col=colours, ylim=c(0,max(mx)*1.1))
+# to add a box around the plot
+box()
+
+# add a legend
+#legend('topright',fill=colours,legend=c('1st','2nd','3rd'))
+
+# ---- All
+#-
+datalabelA <- data.frame(
+  #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  labels=c("API ui",	"API io",	"API gc",	"API database",	"API network",	"API logging",	"API test",	"API os","groups",	"e.files",	"maintable",	"t.bug",	"t.performance",	"good.1.issue",	"fetcher",	"e.editor",	"preferences",	"t.quality",	"t.enhancement",	"import",	"GSoC",	"t.feature",	"keywords"),
+  count.al
+  #count1=count.1t+count.1c,
+  #count2=count.2t+count.2c,
+  #count3=count.3t+count.3c
+  #top3=c(6,19,19,12,2,1,24,27)
+)
+datalabelA
+df <- datalabelA[order(datalabelA$count.al,decreasing = TRUE),]
+df
+#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/AllLabels1.pdf")
+barplot(height=df$count.al, names=df$labels, main="Issues ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1)]))
+mx
+colnames(mx) <- df$labels
+colours = c("red")
+# note the use of ylim to give 30% space for the legend
+barplot(mx,main='All Labels counts',ylab='Counts', xlab='Labels',beside = FALSE, 
+        col=colours, ylim=c(0,max(mx)*1.1))
+# to add a box around the plot
+box()
+
+# add a legend
+#legend('topright',fill=colours,legend=c('1st','2nd','3rd'))
+
+# ---- Aux
+#-
+datalabelAux <- data.frame(
+  #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  labels=c("ui",	"io",	"gc",	"database",	"network",	"logging",	"test",	"os","groups",	"e.files",	"maintable",	"t.bug",	"t.performance",	"good.1.issue",	"fetcher",	"e.editor",	"preferences",	"t.quality",	"t.enhancem.",	"import",	"GSoC",	"t.feature",	"keywords"),
+  count.aul,
+  count.tl,
+  count.all= count.aul+count.tl
+  #count1=count.1t+count.1c,
+  #count2=count.2t+count.2c,
+  #count3=count.3t+count.3c
+  #top3=c(6,19,19,12,2,1,24,27)
+)
+datalabelAux
+df <- datalabelAux[order(datalabelAux$count.tl,decreasing = TRUE),]
+df
+#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/AllLabels2.pdf")
+barplot(height=df$count.all, names=df$labels, main="Issues ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1,4)]))
+mx
+colnames(mx) <- df$labels
+colours = c("red","blue")
+# note the use of ylim to give 30% space for the legend
+barplot(mx,main='All Labels counts',ylab='Counts', xlab='Labels',beside = TRUE, 
+        col=colours, ylim=c(0,max(mx)*1.1))
+# to add a box around the plot
+box()
+
+# add a legend
+legend('topright',fill=colours,legend=c('Control','Treatment'))

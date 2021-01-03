@@ -5,14 +5,16 @@
 # Prepare DF
 #Contributor
 contributorLabels <- allContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
-contributorNewLabels <- allContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+#contributorNewLabels <- allContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+contributorNewLabels <- treatContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
 contributorOldLabels <- allContributor[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
 contributorHotMapLabels <- allContributor[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 contributorHotMapNonLabels <- allContributor[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
 
 #NonContributor
 noncontributorLabels <- allNonContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
-noncontributorNewLabels <- allNonContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+#noncontributorNewLabels <- allNonContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+noncontributorNewLabels <- treatNonContributor[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
 noncontributorOldLabels <- allNonContributor[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
 noncontributorHotMapLabels <- allNonContributor[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 noncontributorHotMapNonLabels <- allNonContributor[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
@@ -20,6 +22,7 @@ noncontributorHotMapNonLabels <- allNonContributor[c("X","Q50_1","Q50_2","Q50_3"
 # Contributor All
 
 #new Labels relevant
+contributorNewLabels <- contributorNewLabels[,-1]
 count.contributorNewLabels <- apply(contributorNewLabels, 2, function(x) length(which(x=="relevant")))
 count.contributorNewLabels
 sum(count.contributorNewLabels)
@@ -72,6 +75,7 @@ sum(count.contributorLabelsNonRel)
 # Non Contributor All
 
 #new Labels relevant
+noncontributorNewLabels <- noncontributorNewLabels[,-1]
 count.noncontributorNewLabels <- apply(noncontributorNewLabels, 2, function(x) length(which(x=="relevant")))
 count.noncontributorNewLabels
 sum(count.noncontributorNewLabels)
@@ -403,18 +407,28 @@ oddsratio.wald(hot_map_Contributor_alt)
 
 #relevant_labels_Indus_Stud <- matrix(c(21/32, 40/60, 11/32, 20/60), nrow = 2)
 
-#relevant_labels_Indus <- matrix(c(sum(count.contributorNewLabels), sum(count.StudNewLabels), sum(count.contributorNewLabelsNonRel), sum(count.StudNewLabelsNonRel)), nrow = 2)
+relevant_labels_contributor <- matrix(c(sum(count.contributorNewLabels), sum(count.noncontributorNewLabels), sum(count.contributorNewLabelsNonRel), sum(count.noncontributorNewLabelsNonRel)), nrow = 2)
 
-#rownames(relevant_labels_Indus) <- c("new Labels Indus", "new Labels Stud")
-#colnames(relevant_labels_Indus) <- c("yes-relevant", "no-relevant")
+rownames(relevant_labels_contributor) <- c("new Labels contributor", "new Labels non contributor")
+colnames(relevant_labels_contributor) <- c("yes-relevant", "no-relevant")
 
-#relevant_labels_Indus
+relevant_labels_contributor
 
-#chisq.test(relevant_labels_Indus)
+chisq.test(relevant_labels_contributor)
 
-#fisher.test(relevant_labels_Indus)
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
 
-#oddsratio.wald(relevant_labels_Indus)
+cramerV(relevant_labels_contributor)
+
+fisher.test(relevant_labels_contributor)
+
+oddsratio.wald(relevant_labels_contributor)
 
 # by hand ex:
 #treat <- 21/11
@@ -466,5 +480,52 @@ control
 
 odd <- treat/control
 odd
+
+# ---- Contrib x Non Contrib
+#-
+tc <- nrow(treatContributor)
+tnc <- nrow(treatNonContributor)
+
+#treatAllLabels <- treatAllLabels[,-1]
+datalabelContrib <- data.frame(
+  #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  labels=c("ui",	"io",	"gc",	"db",	"network",	"logging",	"test",	"os"),
+  count.contributorNewLabels/tc,
+  count.noncontributorNewLabels/tnc,
+  count.all= count.contributorNewLabels/tc+count.noncontributorNewLabels/tnc
+  #count1=count.1t+count.1c,
+  #count2=count.2t+count.2c,
+  #count3=count.3t+count.3c
+  #top3=c(6,19,19,12,2,1,24,27)
+)
+datalabelContrib
+df <- datalabelContrib[order(datalabelContrib$count.all,decreasing = TRUE),]
+df
+#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/NewLabelsContrib.pdf")
+barplot(height=df$count.all, names=df$labels, main="Labels",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1,4)]))
+mx
+colnames(mx) <- df$labels
+colours = c("papayawhip","skyblue")
+# note the use of ylim to give 30% space for the legend
+#barplot(mx,main='New Labels counts Contrib x Non Contrib normalized',ylab='Counts', xlab='Labels',beside = TRUE, 
+barplot(mx,main='Contributor x Non Contributor',ylab='Counts', xlab='Labels',beside = TRUE, 
+        col=colours, ylim=c(0,max(mx)*1.1))
+# to add a box around the plot
+box()
+
+# add a legend
+legend('topright',fill=colours,legend=c('C','NC'))
+
+
 
 

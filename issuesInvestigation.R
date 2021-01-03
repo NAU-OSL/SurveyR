@@ -282,28 +282,34 @@ pdf(file="treatAllIssues.pdf")
 hist(count.t, col="red")
 dev.off()
 
-data <- data.frame(
+# 1st, 2nd, 3rd
+
+data123 <- data.frame(
   #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
   #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
   issues=c("5679","5653","4430","5532","5486","5022","5254","4612","5194","4629","4816","4977","5002","4913","4864","4306","4360","4233","3994","628","2319","2370"),
-  #count=count.t+count.c,
+  count=count.t+count.c,
   count1=count.1t+count.1c,
   count2=count.2t+count.2c,
   count3=count.3t+count.3c
   #top3=c(6,19,19,12,2,1,24,27)
 )
-data
+data123
+df <- data123[order(data123$count,decreasing = TRUE),]
+df
 #,6,19,19,12,2,1,24,27
 #names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
 par(mfrow=c(1,1))
 pdf(file="./figures/AllHotMap.pdf")
-barplot(height=data$count, names=data$issues, main="Issues ",  horiz=TRUE,)
+barplot(height=df$count, names=df$issues, main="Issues ",  horiz=TRUE,)
 #hist(count.1t, col="violet")
 dev.off()
 
 par(mfrow=c(1,1))
-mx <- t(as.matrix(data[-1]))
-colnames(mx) <- data$issues
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1,2)]))
+mx
+colnames(mx) <- df$issues
 colours = c("red","blue","green")
 # note the use of ylim to give 30% space for the legend
 barplot(mx,main='Issues counts',ylab='Counts', xlab='Issues',beside = FALSE, 
@@ -311,8 +317,43 @@ barplot(mx,main='Issues counts',ylab='Counts', xlab='Issues',beside = FALSE,
 # to add a box around the plot
 box()
 
+
+# treat x Control
+
+datatc <- data.frame(
+  #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  issues=c("5679","5653","4430","5532","5486","5022","5254","4612","5194","4629","4816","4977","5002","4913","4864","4306","4360","4233","3994","628","2319","2370"),
+  count=count.t+count.c,
+  count.t,
+  count.c
+  #top3=c(6,19,19,12,2,1,24,27)
+)
+datatc
+df <- datatc[order(datatc$count,decreasing = TRUE),]
+df
+#,6,19,19,12,2,1,24,27
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/AllHotMap.pdf")
+barplot(height=df$count, names=df$issues, main="Issues ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+#mx <- t(as.matrix(data[-1]))
+mx <- t(as.matrix(df[-c(1,2)]))
+mx
+colnames(mx) <- df$issues
+colours = c("blue","red")
+# note the use of ylim to give 30% space for the legend
+barplot(mx,main='Issues counts Treatment Control',ylab='Counts', xlab='Issues',beside = FALSE, 
+        col=colours, ylim=c(0,max(mx)*2))
+# to add a box around the plot
+box()
+
 # add a legend
-legend('topright',fill=colours,legend=c('1st','2nd','3rd'))
+legend('topright',fill=colours,legend=c('Treatment','Control'))
 
 library(tidyr)
 library(ggplot2)

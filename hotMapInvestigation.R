@@ -219,6 +219,35 @@ barplot(count.chm, main="hot spot control", horiz=TRUE,)
 dev.off()
 
 count.allhm <- count.chm + count.thm
+
+count.thmaux <- c(0,0,0,0,0,0,0,0)
+count.thmaux [1] <- count.thm[2] #author
+count.thmaux [2] <- count.thm[3] #body
+count.thmaux [3] <- count.thm[5] #code
+count.thmaux [4] <- count.thm[6] #comments
+count.thmaux [5] <- count.thm[7] #participants
+count.thmaux [6] <- count.thm[10] #linked
+#count.thmaux [7] <- count.thm[4]+count.thm[8]+count.thm[9]+count.thm[12] #labels
+#count.thmaux [8] <- count.thm[1]+count.thm[11] #titles
+count.thmaux [7] <- count.thm[13] #labels
+count.thmaux [8] <- count.thm[14] #tiltles
+count.thmaux
+
+count.chmaux <- c(0,0,0,0,0,0,0,0)
+count.chmaux [1] <- count.chm[2] #author
+count.chmaux [2] <- count.chm[3] #body
+count.chmaux [3] <- count.chm[5] #code
+count.chmaux [4] <- count.chm[6] #comments
+count.chmaux [5] <- count.chm[7] #participants
+count.chmaux [6] <- count.chm[10] #linked
+#count.chmaux [7] <- count.chm[4]+count.chm[8]+count.chm[9]+count.chm[12] #labels
+#count.chmaux [8] <- count.chm[1]+count.chm[11] #titles
+count.chmaux [7] <- count.chm[13] #labels
+count.chmaux [8] <- count.chm[14] #tiltles
+count.chmaux
+
+count.allhmaux <- count.chmaux + count.thmaux
+count.allhmaux
 #title        author          body        labels          code      comments  participants     newLabel1 
 #33            16            54            25            41            25             4             0 
 #newLabel2        linked  tileListPage labelListPage     sumLabels     sumTitles 
@@ -226,23 +255,27 @@ count.allhm <- count.chm + count.thm
 
 #c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"
 
-data <- data.frame(
+datahmt3 <- data.frame(
   region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
-  total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
-  top3=c(6,19,19,12,2,1,24,27)
+  #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
+  top3=c(6,19,19,12,2,1,24,27),
+  total=count.allhmaux
 )
-data#,6,19,19,12,2,1,24,27
+datahmt3#,6,19,19,12,2,1,24,27
+df <- datahmt3[order(datahmt3$top3,decreasing = TRUE),]
+df
 #names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
 par(mfrow=c(1,1))
 pdf(file="./figures/AllHotMap.pdf")
-barplot(height=data$total, names=data$region, main="hot spot ",  horiz=TRUE,)
+barplot(height=datahmt3$total, names=datahmt3$region, main="hot spot ",  horiz=TRUE,)
 #hist(count.1t, col="violet")
 dev.off()
 
 par(mfrow=c(1,1))
-mx <- t(as.matrix(data[-1]))
-colnames(mx) <- data$region
-colours = c("red","blue")
+mx <- t(as.matrix(df[-1]))
+mx
+colnames(mx) <- df$region
+colours = c("Green","Yellow")
 # note the use of ylim to give 30% space for the legend
 barplot(mx,main='Hot Spot counts',ylab='Counts', xlab='Regions',beside = TRUE, 
         col=colours, ylim=c(0,max(mx)*1.3))
@@ -250,7 +283,37 @@ barplot(mx,main='Hot Spot counts',ylab='Counts', xlab='Regions',beside = TRUE,
 box()
 
 # add a legend
-legend('topright',fill=colours,legend=c('Total','Top 3'))
+legend('topright',fill=colours,legend=c('Top 3 issues','Total'))
+
+# Treatment x Control
+datahmtc <- data.frame(
+  region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
+  count.thmaux,  
+  count.chmaux
+)
+datahmtc#,6,19,19,12,2,1,24,27
+df <- datahmtc[order(datahmtc$count.thm,decreasing = TRUE),]
+df
+#names.arg=c("Title","Author","Body","Side Label","Code Snippet","Comments","Participants","New Label 1", "New Label 1","linked",  "tileListPage", "labelListPage",     "sumLabels",     "sumTitles"),
+par(mfrow=c(1,1))
+pdf(file="./figures/AllHotMap.pdf")
+barplot(height=datahmtc$count.thm, names=datahmtc$region, main="hot spot ",  horiz=TRUE,)
+#hist(count.1t, col="violet")
+dev.off()
+
+par(mfrow=c(1,1))
+mx <- t(as.matrix(df[-1]))
+mx
+colnames(mx) <- df$region
+colours = c("Blue","Red")
+# note the use of ylim to give 30% space for the legend
+barplot(mx,main='Hot Spot counts',ylab='Counts', xlab='Regions',beside = TRUE, 
+        col=colours, ylim=c(0,max(mx)*1.3))
+# to add a box around the plot
+box()
+
+# add a legend
+legend('topright',fill=colours,legend=c('Treatment','Control'))
 
 library(tidyr)
 library(ggplot2)

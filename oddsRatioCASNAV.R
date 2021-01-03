@@ -1,29 +1,32 @@
 #CASNAV
 
-casnavT <- read.csv("surveyCASNAV.csv")
-casnavC <- read.csv("surveyCASNAV-1.csv")
+#casnavT <- read.csv("surveyCASNAV.csv")
+#casnavC <- read.csv("surveyCASNAV-1.csv")
+
+casnavT <- treatcasnav
+casnavC <- controlcasnav
 
 colnames(casnavT)
 colnames(casnavC)
-#casnavTLabels <- casnavT[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
-casnavTLabels <- casnavT[c("X", "Q44_1",	"Q44_2",	"Q44_3",	"Q44_4",	"Q44_5",	"Q44_6",	"Q44_7",	"Q44_8",	"Q44_9",	"Q44_10",	"Q44_11",	"Q44_12",	"Q44_13",	"Q44_14",	"Q44_15", "Q44_16", "Q44_17", "Q44_18", "Q44_19", "Q44_20", "Q44_21", "Q44_22", "Q44_23")]
+casnavTLabels <- casnavT[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+#casnavTLabels <- casnavT[c("X", "Q44_1",	"Q44_2",	"Q44_3",	"Q44_4",	"Q44_5",	"Q44_6",	"Q44_7",	"Q44_8",	"Q44_9",	"Q44_10",	"Q44_11",	"Q44_12",	"Q44_13",	"Q44_14",	"Q44_15", "Q44_16", "Q44_17", "Q44_18", "Q44_19", "Q44_20", "Q44_21", "Q44_22", "Q44_23")]
 
-#casnavCLabels <- casnavC[c("X",ui","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
-casnavCLabels <- casnavC[c("X", "Q46_1",	"Q46_2",	"Q46_3",	"Q46_4",	"Q46_5",	"Q46_6",	"Q46_7",	"Q46_8",	"Q46_9",	"Q46_10",	"Q46_11",	"Q46_12",	"Q46_13",	"Q46_14",	"Q46_15", "Q46_16")]
+casnavCLabels <- casnavC[c("X","ui","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+#casnavCLabels <- casnavC[c("X", "Q46_1",	"Q46_2",	"Q46_3",	"Q46_4",	"Q46_5",	"Q46_6",	"Q46_7",	"Q46_8",	"Q46_9",	"Q46_10",	"Q46_11",	"Q46_12",	"Q46_13",	"Q46_14",	"Q46_15", "Q46_16")]
 #Q46_1	Q46_2	Q46_3	Q46_4	Q46_5	Q46_6	Q46_7	Q46_8	Q46_9	Q46_10	Q46_11	Q46_12	Q46_13	Q46_14	Q46_15	Q46_16 
-#casnavTNewLabels <- casnavT[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
-casnavTNewLabels <- casnavT[c("X","Q44_1",	"Q44_2",	"Q44_3",	"Q44_4",	"Q44_5",	"Q44_6",	"Q44_7",	"Q44_8"	)]
+casnavTNewLabels <- casnavT[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
+#casnavTNewLabels <- casnavT[c("X","Q44_1",	"Q44_2",	"Q44_3",	"Q44_4",	"Q44_5",	"Q44_6",	"Q44_7",	"Q44_8"	)]
 
-#casnavTOldLabels <- casnavT[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
-casnavTOldLabels <- casnavT[c("X","Q44_9",	"Q44_10",	"Q44_11",	"Q44_12",	"Q44_13",	"Q44_14",	"Q44_15", "Q44_16", "Q44_17", "Q44_18", "Q44_19", "Q44_20", "Q44_21", "Q44_22", "Q44_23")]
+casnavTOldLabels <- casnavT[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
+#casnavTOldLabels <- casnavT[c("X","Q44_9",	"Q44_10",	"Q44_11",	"Q44_12",	"Q44_13",	"Q44_14",	"Q44_15", "Q44_16", "Q44_17", "Q44_18", "Q44_19", "Q44_20", "Q44_21", "Q44_22", "Q44_23")]
 
-#Q16_1	Q16_2	Q16_3	Q16_4	Q16_5	Q16_6	Q16_7	Q16_8	Q16_9	Q16_10
+#Q50_1	Q50_2	Q50_3	Q50_4	Q50_5	Q50_6	Q50_7	Q50_8	Q50_9	Q50_10
 
-casnavTHotMapLabels <- casnavT[c("X","Q16_4","Q16_8","Q16_9")]
-casnavTHotMapNonLabels <- casnavT[c("X","Q16_1","Q16_2","Q16_3","Q16_5","Q16_6","Q16_7","Q16_10")]
+casnavTHotMapLabels <- casnavT[c("X","Q50_4","Q50_8","Q50_9")]
+casnavTHotMapNonLabels <- casnavT[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10")]
 
-casnavCHotMapLabels <- casnavC[c("X","Q16_4","Q16_8","Q16_9")]
-casnavCHotMapNonLabels <- casnavC[c("X","Q16_1","Q16_2","Q16_3","Q16_5","Q16_6","Q16_7","Q16_10")]
+casnavCHotMapLabels <- casnavC[c("X","Q50_4","Q50_8","Q50_9")]
+casnavCHotMapNonLabels <- casnavC[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10")]
 
 count.TCasnavNewLabels <- apply(casnavTNewLabels, 2, function(x) length(which(x=="relevant")))
 count.TCasnavNewLabels
