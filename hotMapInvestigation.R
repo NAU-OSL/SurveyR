@@ -306,8 +306,8 @@ mx <- t(as.matrix(df[-1]))
 mx
 colnames(mx) <- df$region
 colours = c("Blue","Red")
-# note the use of ylim to give 30% space for the legend
-barplot(mx,main='Hot Spot counts',ylab='Counts', xlab='Regions',beside = TRUE, 
+# note the use of ylim to give 30% space for the legend xlab='Regions' ylab='Counts',
+barplot(mx,main='Regions counts' ,beside = TRUE, las=2,
         col=colours, ylim=c(0,max(mx)*1.3))
 # to add a box around the plot
 box()

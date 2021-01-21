@@ -10,6 +10,10 @@ allHotMapNonLabelsT <- treatAll[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q
 allHotMapTitlesT <- treatAll[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 allHotMapNonTitlesT <- treatAll[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
 
+allOldLabelsTComp <- treatAll[c("X","groups",	"external.files",	"maintable",	"fetcher",	"entry.editor",	"preferences",	"import",	"keywords")]
+allOldLabelsTType <- treatAll[c("X",	"type..bug",	"type..performance",	"good.first.issue",	"type..code.quality",	"type..enhancement",	"project.GSoC",	"type..feature")]
+
+
 # Control
 #allLabelsC <- controlAll[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
 #allNewLabelsC <- controlAll[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
@@ -17,10 +21,113 @@ allOldLabelsC <- controlAll[c("X","groups",	"external.files",	"maintable",	"type
 allHotMapLabelsC <- controlAll[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 allHotMapNonLabelsC <- controlAll[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
 
+allOldLabelsCComp <- controlAll[c("X","groups",	"external.files",	"maintable",	"fetcher",	"entry.editor",	"preferences",	"import",	"keywords")]
+allOldLabelsCType <- controlAll[c("X",	"type..bug",	"type..performance",	"good.first.issue",	"type..code.quality",	"type..enhancement",	"project.GSoC",	"type..feature")]
+
+# Gambi ---------
+
+allOldLabelsTCompPart <- allOldLabelsTComp
+allOldLabelsTComp <- allOldLabelsTComp[,-1]
+count.allOldLabelsTComp <- apply(allOldLabelsTComp, 2, function(x) length(which(x=="relevant")))
+count.allOldLabelsTComp
+sum(count.allOldLabelsTComp)
+
+allOldLabelsTTypePart <- allOldLabelsTType
+allOldLabelsTType <- allOldLabelsTType[,-1]
+count.allOldLabelsTType <- apply(allOldLabelsTType, 2, function(x) length(which(x=="relevant")))
+count.allOldLabelsTType
+sum(count.allOldLabelsTType)
+
+allOldLabelsCCompPart <- allOldLabelsCComp
+allOldLabelsCComp <- allOldLabelsCComp[,-1]
+count.allOldLabelsCComp <- apply(allOldLabelsCComp, 2, function(x) length(which(x=="relevant")))
+count.allOldLabelsCComp
+sum(count.allOldLabelsCComp)
+
+allOldLabelsCTypePart <- allOldLabelsCType
+allOldLabelsCType <- allOldLabelsCType[,-1]
+count.allOldLabelsCType <- apply(allOldLabelsCType, 2, function(x) length(which(x=="relevant")))
+count.allOldLabelsCType
+sum(count.allOldLabelsCType)
+
+# -------------- participants
+#-- Comp
+#allOldLabelsTCompPart <- allOldLabelsTComp
+
+count.allOldLabelsTCompP <- apply(allOldLabelsTCompPart, 1, function(x) length(which(x=="relevant")))
+
+allOldLabelsTCompPart$tot <- count.allOldLabelsTCompP
+
+allOldLabelsTCompPartViolin <- allOldLabelsTCompPart[c("X","tot")]
+
+allOldLabelsTCompPartViolin$X <- "Comp"
+
+# - Type
+#allOldLabelsTTypePart <- allOldLabelsTType
+
+count.allOldLabelsTTypeP <- apply(allOldLabelsTTypePart, 1, function(x) length(which(x=="relevant")))
+
+allOldLabelsTTypePart$tot <- count.allOldLabelsTTypeP
+
+allOldLabelsTTypePartViolin <- allOldLabelsTTypePart[c("X","tot")]
+
+allOldLabelsTTypePartViolin$X <- "Type"
+
+# - API
+allNewLabelsTPart <- allNewLabelsT
+
+count.allNewLabelsTP <- apply(allNewLabelsTPart, 1, function(x) length(which(x=="relevant")))
+
+allNewLabelsTPart$tot <- count.allNewLabelsTP
+
+allNewLabelsTPartViolin <- allNewLabelsTPart[c("X","tot")]
+
+allNewLabelsTPartViolin$X <- "API"
+
+
+# Violin 1 API x Comp
+
+
+violinComp <- rbind(allNewLabelsTPartViolin, allOldLabelsTCompPartViolin)
+
+violinComp$x <- "a"
+
+names(violinComp)[names(violinComp) == 'X'] <- 'label'
+names(violinComp)[names(violinComp) == 'tot'] <- 'y'
+
+colnames(violinComp)
+
+write.csv(violinComp,"violinComp.csv", row.names = FALSE)
+# Violin 1 API x Type
+
+violinType <- rbind(allNewLabelsTPartViolin, allOldLabelsTTypePartViolin)
+
+violinType$x <- "a"
+
+names(violinType)[names(violinType) == 'X'] <- 'label'
+names(violinType)[names(violinType) == 'tot'] <- 'y'
+
+colnames(violinType)
+
+write.csv(violinType,"violinType.csv", row.names = FALSE)
+
+# Violin 1 API x Type x Comp
+
+violinTypeCompAPI <- rbind(allNewLabelsTPartViolin, allOldLabelsTTypePartViolin, allOldLabelsTCompPartViolin)
+
+violinTypeCompAPI$x <- "a"
+
+names(violinTypeCompAPI)[names(violinTypeCompAPI) == 'X'] <- 'label'
+names(violinTypeCompAPI)[names(violinTypeCompAPI) == 'tot'] <- 'y'
+
+colnames(violinTypeCompAPI)
+
+write.csv(violinTypeCompAPI,"violinTypeCompAPI.csv", row.names = FALSE)
 # 
-# stud Treat
+# all Treat
 
 #new LabelsT relevant
+
 count.allNewLabelsT <- apply(allNewLabelsT, 2, function(x) length(which(x=="relevant")))
 count.allNewLabelsT
 sum(count.allNewLabelsT)
@@ -207,7 +314,7 @@ oddsratio.wald(relevant_labels_all)
 
 relevant_labels_all_alt <- matrix(c(sum(count.allLabelsT), sum(count.allOldLabelsC), sum(count.allLabelsTNonRel), sum(count.allOldLabelsCNonRel)), nrow = 2)
 
-rownames(relevant_labels_all_alt) <- c("All Labels stud Treat", "All Labels stud Control")
+rownames(relevant_labels_all_alt) <- c("All Labels  Treat", "All Labels  Control")
 colnames(relevant_labels_all_alt) <- c("yes-relevant", "no-relevant")
 
 relevant_labels_all_alt 

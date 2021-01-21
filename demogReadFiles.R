@@ -277,8 +277,18 @@ treatContributor$X
 treatNonContributor$Q7
 treatNonContributor$X
 
-treatAffinity <- treatAll[ which( treatAll$Q9 > mq9 | treatAll$Q10 > mq10 | treatAll$Q11 > mq11 | treatAll$Q12 > mq12) , ]
-treatNoAffinity <- treatAll[ which( treatAll$Q9 <= mq9 & treatAll$Q10 <= mq10 & treatAll$Q11 <= mq11 & treatAll$Q12 <= mq12) , ]
+#treatAffinity <- treatAll[ which( treatAll$Q9 > mq9 | treatAll$Q10 > mq10 | treatAll$Q11 > mq11 | treatAll$Q12 > mq12) , ]
+treatAffinity <- treatAll [ which( treatAll$Q9 > mq9all & treatAll$Q10 > mq10all | 
+           treatAll$Q9 > mq9all & treatAll$Q11 > mq11all |
+           treatAll$Q9 > mq9all & treatAll$Q12 > mq12all |
+           treatAll$Q11 > mq11all & treatAll$Q10 > mq10all |
+           treatAll$Q12 > mq12all & treatAll$Q10 > mq10all |
+           treatAll$Q11 > mq11all & treatAll$Q12 > mq12all) , ]
+#treatNoAffinity <- treatAll[ which( treatAll$Q9 <= mq9 & treatAll$Q10 <= mq10 & treatAll$Q11 <= mq11 & treatAll$Q12 <= mq12) , ]
+
+library(dplyr)
+target <- treatAffinity$X
+treatNoAffinity <- filter(treatAll, !X %in% target)
 
 #treatAfinity <- treatAll[ which( treatAll$Q9 > 3),]
 
@@ -311,7 +321,7 @@ controlContributor <- controlAll[controlAll$Q7>mq7c,]
 controlContributor$Q7
 controlContributor$X
 
-controlAffinity <- controlAll[ which( controlAll$Q9 > mq9c | controlAll$Q10 > mq10c | controlAll$Q11 > mq11c | controlAll$Q12 > mq12c) , ]
+#controlAffinity <- controlAll[ which( controlAll$Q9 > mq9c | controlAll$Q10 > mq10c | controlAll$Q11 > mq11c | controlAll$Q12 > mq12c) , ]
 
 #controlAfinity <- controlAll[ which( controlAll$Q9 > 3),]
 

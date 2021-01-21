@@ -11,6 +11,10 @@ expCoderOldLabels <- allExpCoder[c("X","groups",	"external.files",	"maintable",	
 expCoderHotMapLabels <- allExpCoder[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 expCoderHotMapNonLabels <- allExpCoder[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
 
+expCoderOldLabelsComp <- allExpCoder[c("X","groups",	"external.files",	"maintable",	"fetcher",	"entry.editor",	"preferences",	"import",	"keywords")]
+expCoderOldLabelsType <- allExpCoder[c("X",	"type..bug",	"type..performance",	"good.first.issue",		"type..code.quality",	"type..enhancement",	"project.GSoC",	"type..feature")]
+
+
 #NonExpCoder
 nonexpCoderLabels <- allNonExpCoder[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os",	"groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
 #nonexpCoderNewLabels <- allNonExpCoder[c("X","ui",	"io",	"google.commom",	"database",	"network",	"logging",	"test",	"os"	)]
@@ -18,6 +22,36 @@ nonexpCoderNewLabels <- treatNonExpCoder[c("X","ui",	"io",	"google.commom",	"dat
 nonexpCoderOldLabels <- allNonExpCoder[c("X","groups",	"external.files",	"maintable",	"type..bug",	"type..performance",	"good.first.issue",	"fetcher",	"entry.editor",	"preferences",	"type..code.quality",	"type..enhancement",	"import",	"project.GSoC",	"type..feature",	"keywords")]
 nonexpCoderHotMapLabels <- allNonExpCoder[c("X","Q50_4","Q50_8","Q50_9","Q50_12")]
 nonexpCoderHotMapNonLabels <- allNonExpCoder[c("X","Q50_1","Q50_2","Q50_3","Q50_5","Q50_6","Q50_7","Q50_10","Q50_11")]
+
+nonexpCoderOldLabelsComp <- allNonExpCoder[c("X","groups",	"external.files",	"maintable",	"fetcher",	"entry.editor",	"preferences",	"import",	"keywords")]
+nonexpCoderOldLabelsType <- allNonExpCoder[c("X",	"type..bug",	"type..performance",	"good.first.issue",		"type..code.quality",	"type..enhancement",	"project.GSoC",	"type..feature")]
+
+# Gambi ---------
+
+expCoderOldLabelsTypePart <- expCoderOldLabelsType
+expCoderOldLabelsType <- expCoderOldLabelsType[,-1]
+count.expCoderOldLabelsType <- apply(expCoderOldLabelsType, 2, function(x) length(which(x=="relevant")))
+count.expCoderOldLabelsType
+sum(count.expCoderOldLabelsType)
+
+expCoderOldLabelsCompPart <- expCoderOldLabelsComp
+expCoderOldLabelsComp <- expCoderOldLabelsComp[,-1]
+count.expCoderOldLabelsComp <- apply(expCoderOldLabelsComp, 2, function(x) length(which(x=="relevant")))
+count.expCoderOldLabelsComp
+sum(count.expCoderOldLabelsComp)
+
+nonexpCoderOldLabelsTypePart <- nonexpCoderOldLabelsType
+nonexpCoderOldLabelsType <- nonexpCoderOldLabelsType[,-1]
+count.nonexpCoderOldLabelsType <- apply(nonexpCoderOldLabelsType, 2, function(x) length(which(x=="relevant")))
+count.nonexpCoderOldLabelsType
+sum(count.nonexpCoderOldLabelsType)
+
+nonexpCoderOldLabelsCompPart <- nonexpCoderOldLabelsComp
+nonexpCoderOldLabelsComp <- nonexpCoderOldLabelsComp[,-1]
+count.nonexpCoderOldLabelsComp <- apply(nonexpCoderOldLabelsComp, 2, function(x) length(which(x=="relevant")))
+count.nonexpCoderOldLabelsComp
+sum(count.nonexpCoderOldLabelsComp)
+
 
 # ExpCoder All
 
@@ -163,14 +197,16 @@ oddsratio.wald(hot_map_expCoder_non_alt)
 
 #relevant_labels_Indus_Stud <- matrix(c(21/32, 40/60, 11/32, 20/60), nrow = 2)
 
-relevant_labels_ExpCode_non <- matrix(c(sum(count.expCoderNewLabels), sum(count.nonexpCoderNewLabels), sum(count.expCoderNewLabelsNonRel), sum(count.nonexpCoderNewLabelsNonRel)), nrow = 2)
+# ----------  - New x Old - I x S - APi x Comp
 
-rownames(relevant_labels_ExpCode_non) <- c("new Labels ExpCoder", "new Labels Non ExpCoder")
-colnames(relevant_labels_ExpCode_non) <- c("yes-relevant", "no-relevant")
+relevant_labels_ExpCod_apiComp_new_old <- matrix(c(sum(count.expCoderNewLabels), sum(count.nonexpCoderNewLabels), sum(count.expCoderOldLabelsComp), sum(count.nonexpCoderOldLabelsComp)), nrow = 2)
 
-relevant_labels_ExpCode_non
+rownames(relevant_labels_ExpCod_apiComp_new_old) <- c("Exp Coder", "Novice Coder")
+colnames(relevant_labels_ExpCod_apiComp_new_old) <- c("new Labels ", "Comp Labels")
 
-chisq.test(relevant_labels_ExpCode_non)
+relevant_labels_ExpCod_apiComp_new_old
+
+chisq.test(relevant_labels_ExpCod_apiComp_new_old)
 
 cramerV <- function(data) {
   tempchi <- chisq.test(data);
@@ -180,11 +216,86 @@ cramerV <- function(data) {
   c(effsize = cv, p.value = pvalue, chi2 = chi2); 
 }
 
-cramerV(relevant_labels_ExpCode_non)
+cramerV(relevant_labels_ExpCod_apiComp_new_old)
 
-fisher.test(relevant_labels_ExpCode_non)
+fisher.test(relevant_labels_ExpCod_apiComp_new_old)
 
-oddsratio.wald(relevant_labels_ExpCode_non)
+oddsratio.wald(relevant_labels_ExpCod_apiComp_new_old)
+
+# ---------- - New x Old - I x S - APi x Type
+
+relevant_labels_ExpCod_apiType_new_old <- matrix(c(sum(count.expCoderNewLabels), sum(count.nonexpCoderNewLabels), sum(count.expCoderOldLabelsType), sum(count.nonexpCoderOldLabelsType)), nrow = 2)
+
+rownames(relevant_labels_ExpCod_apiType_new_old) <- c("Exp Coder", "Novice")
+colnames(relevant_labels_ExpCod_apiType_new_old) <- c("new Labels ", "Type Labels")
+
+relevant_labels_ExpCod_apiType_new_old
+
+chisq.test(relevant_labels_ExpCod_apiType_new_old)
+
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_ExpCod_apiType_new_old)
+
+fisher.test(relevant_labels_ExpCod_apiType_new_old)
+
+oddsratio.wald(relevant_labels_ExpCod_apiType_new_old)
+
+
+# ---------- T x T - New x Old - Exp Cod x Non Exp
+
+relevant_labels_ExpCod_non_new_old <- matrix(c(sum(count.expCoderNewLabels), sum(count.nonexpCoderNewLabels), sum(count.expCoderOldLabels), sum(count.nonexpCoderOldLabels)), nrow = 2)
+
+rownames(relevant_labels_ExpCod_non_new_old) <- c("Indus", "Stu")
+colnames(relevant_labels_ExpCod_non_new_old) <- c("new Labels ", "old Labels")
+
+relevant_labels_ExpCod_non_new_old
+
+chisq.test(relevant_labels_ExpCod_non_new_old)
+
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_ExpCod_non_new_old)
+
+fisher.test(relevant_labels_ExpCod_non_new_old)
+
+oddsratio.wald(relevant_labels_ExpCod_non_new_old)
+
+#--------------
+relevant_labels_ExpCode_non_new_old <- matrix(c(sum(count.expCoderNewLabels), sum(count.nonexpCoderNewLabels), sum(count.expCoderOldLabels), sum(count.nonexpCoderOldLabels)), nrow = 2)
+
+rownames(relevant_labels_ExpCode_non_new_old) <- c("Exp Coder", "Novice Coder")
+colnames(relevant_labels_ExpCode_non_new_old) <- c("new Labels", "old Labels")
+
+relevant_labels_ExpCode_non_new_old
+
+chisq.test(relevant_labels_ExpCode_non_new_old)
+
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_ExpCode_non_new_old)
+
+fisher.test(relevant_labels_ExpCode_non_new_old)
+
+oddsratio.wald(relevant_labels_ExpCode_non_new_old)
 
 # by hand ex:
 #treat <- 21/11
@@ -449,6 +560,30 @@ control
 odd <- treat/control
 odd
 
+# --------------
+
+relevant_labels_ExpCoder <- matrix(c(sum(count.expCoderNewLabels), sum(count.nonexpCoderNewLabels), sum(count.expCoderNewLabelsNonRel), sum(count.nonexpCoderNewLabelsNonRel)), nrow = 2)
+
+rownames(relevant_labels_ExpCoder) <- c("new Labels expCoder", "new Labels non expCoder")
+colnames(relevant_labels_ExpCoder) <- c("yes-relevant", "no-relevant")
+
+relevant_labels_ExpCoder
+
+chisq.test(relevant_labels_ExpCoder)
+
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labels_ExpCoder)
+
+fisher.test(relevant_labels_ExpCoder)
+
+oddsratio.wald(relevant_labels_ExpCoder)
 # new labels T''
 
 #relevant_labels_ExpCoder <- matrix(c(sum(count.expCoderNewLabelsT), sum(count.nonexpCoderNewLabelsT), sum(count.expCoderNewLabelsNonRel), sum(count.nonexpCoderNewLabelsNonRel)), nrow = 2)

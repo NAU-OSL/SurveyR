@@ -162,11 +162,12 @@ ggplot(df1cl, aes(x, y)) +
   labs(x = "labels control", y = "issues")
 
 #------------ Treatment
+tn <- nrow(treatAll)
 datalabelT <- data.frame(
   #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
   #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
-  labels=c("API ui",	"API io",	"API gc",	"API database",	"API network",	"API logging",	"API test",	"API os",	"groups",	"e.files",	"maintable",	"t.bug",	"t.performance",	"good.1.issue",	"fetcher",	"e.editor",	"preferences",	"t.quality",	"t.enhancem.",	"import",	"GSoC",	"t.feature",	"keywords"),
-  count.tl
+  labels=c("API ui",	"API io",	"API gc",	"API db",	"API net",	"API log.",	"API test",	"API os",	"groups",	"e.files",	"maintable",	"t.bug",	"t.perform.",	"good.1st.i.",	"fetcher",	"e.editor",	"preferen.",	"t.quality",	"t.enhanc.",	"import",	"GSoC",	"t.feature",	"keywords"),
+  count.tl/tn
   #count1=count.1t+count.1c,
   #count2=count.2t+count.2c,
   #count3=count.3t+count.3c
@@ -183,27 +184,28 @@ barplot(height=df$count.tl, names=df$labels, main="Issues ",  horiz=TRUE,)
 #hist(count.1t, col="violet")
 dev.off()
 
-par(mfrow=c(1,1))
+par(mfrow=c(2,1))
 #mx <- t(as.matrix(data[-1]))
 mx <- t(as.matrix(df[-c(1)]))
 mx
 colnames(mx) <- df$labels
 colours = c("blue")
 # note the use of ylim to give 30% space for the legend
-barplot(mx,main='Treatment Labels counts',ylab='Counts', xlab='Labels',beside = FALSE, 
+barplot(mx,main='Treatment and Control Labels counts',ylab='Counts', xlab='Labels',beside = FALSE, 
         col=colours, ylim=c(0,max(mx)*1.1))
 # to add a box around the plot
 box()
 
 # add a legend
-#legend('topright',fill=colours,legend=c('1st','2nd','3rd'))
+legend('topright',fill=colours,legend=c('Treatment'))
 
 #------------ Control
+tct <- nrow(controlAll)
 datalabel <- data.frame(
   #region=c("Author","Body","Code","Comments","Particip","Linked",   "Labels",     "Titles"),
   #total=c(16,54,41,25,4,6,52,66),  #c(16,54,41,25,4,6,52,66)
   labels=c("groups",	"e.files",	"maintable",	"t.bug",	"t.performance",	"good.1.issue",	"fetcher",	"e.editor",	"preferences",	"t.quality",	"t.enhancem.",	"import",	"GSoC",	"t.feature",	"keywords"),
-  count.cl
+  count.cl/tct
   #count1=count.1t+count.1c,
   #count2=count.2t+count.2c,
   #count3=count.3t+count.3c
@@ -220,20 +222,20 @@ barplot(height=df$count.cl, names=df$labels, main="Issues ",  horiz=TRUE,)
 #hist(count.1t, col="violet")
 dev.off()
 
-par(mfrow=c(1,2))
+par(mfrow=c(2,1))
 #mx <- t(as.matrix(data[-1]))
 mx <- t(as.matrix(df[-c(1)]))
 mx
 colnames(mx) <- df$labels
 colours = c("red")
 # note the use of ylim to give 30% space for the legend
-barplot(mx,main='Control Labels counts',ylab='Counts', xlab='Labels',beside = FALSE, 
+barplot(mx,main='',ylab='Counts', xlab='Labels',beside = FALSE, 
         col=colours, ylim=c(0,max(mx)*1.1))
 # to add a box around the plot
 box()
 
 # add a legend
-#legend('topright',fill=colours,legend=c('1st','2nd','3rd'))
+legend('topright',fill=colours,legend=c('Control'))
 
 # ---- All
 #-
@@ -305,7 +307,7 @@ mx
 colnames(mx) <- df$labels
 colours = c("red","blue")
 # note the use of ylim to give 30% space for the legend
-barplot(mx,main='All Labels counts',ylab='Counts', xlab='Labels',beside = TRUE, 
+barplot(mx,main='All Labels counts',ylab='Counts', xlab='Labels',beside = FALSE, 
         col=colours, ylim=c(0,max(mx)*1.1))
 # to add a box around the plot
 box()

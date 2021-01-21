@@ -408,6 +408,32 @@ oddsratio.wald(hot_map_Affinity_alt)
 
 #relevant_labels_Indus_Stud <- matrix(c(21/32, 40/60, 11/32, 20/60), nrow = 2)
 
+# ------------
+
+relevant_labelsAffinity_non_new_old <- matrix(c(sum(count.affinityNewLabels), sum(count.nonaffinityNewLabels), sum(count.affinityOldLabels), sum(count.nonaffinityOldLabels)), nrow = 2)
+
+rownames(relevant_labelsAffinity_non_new_old) <- c("new Labels", "old Labels")
+colnames(relevant_labelsAffinity_non_new_old) <- c("High Exp JabRef Tech", "Low Exp JabRef Tech")
+
+relevant_labelsAffinity_non_new_old
+
+chisq.test(relevant_labelsAffinity_non_new_old)
+
+cramerV <- function(data) {
+  tempchi <- chisq.test(data);
+  chi2 <- unname(tempchi$statistic["X-squared"]);
+  pvalue <- unname(tempchi$p.value);
+  cv <- sqrt(chi2 / sum(data) / (min(length(data), nrow(data))-1));
+  c(effsize = cv, p.value = pvalue, chi2 = chi2); 
+}
+
+cramerV(relevant_labelsAffinity_non_new_old)
+
+fisher.test(relevant_labelsAffinity_non_new_old)
+
+oddsratio.wald(relevant_labelsAffinity_non_new_old)
+
+# -----------------
 relevant_labels_Affinity <- matrix(c(sum(count.affinityNewLabels), sum(count.nonaffinityNewLabels), sum(count.affinityNewLabelsNonRel), sum(count.nonaffinityNewLabelsNonRel)), nrow = 2)
 
 rownames(relevant_labels_Affinity) <- c("new Labels Affinity", "new Labels no Affinity")
@@ -518,7 +544,7 @@ colnames(mx) <- df$labels
 colours = c("lightblue","lightgoldenrod")
 # note the use of ylim to give 30% space for the legend
 #barplot(mx,main='New Labels counts Affinity x No Affinity normalized',ylab='Counts', xlab='Labels',beside = TRUE, 
-barplot(mx,main='High x Low Affinity',ylab='Counts', xlab='Labels',beside = TRUE, 
+barplot(mx,main='High x Low Exp JabRef Tech',ylab='Counts', xlab='Labels',beside = TRUE, 
                 col=colours, ylim=c(0,max(mx)*1.1))
 
 # to add a box around the plot
